@@ -1,2 +1,2 @@
 # Algorithms
-Several algorithms and data structures implemented in C++/Python by me
+Implementation of several data structures and algorithms in C++ and Python by me.
