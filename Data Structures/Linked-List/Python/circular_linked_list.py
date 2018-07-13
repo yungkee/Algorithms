@@ -1,4 +1,3 @@
-# YouTube Video: https://www.youtube.com/watch?v=5WoNhm7sOnA
 class Node:
     def __init__(self, data):
         self.data = data 
@@ -43,6 +42,23 @@ class CircularLinkedList:
             if cur == self.head:
                 break
 
+    def remove(self, key):
+        if self.head.data == key:
+            cur = self.head 
+            while cur.next != self.head:
+                cur = cur.next 
+            cur.next = self.head.next
+            self.head = self.head.next
+        else:
+            cur = self.head 
+            prev = None 
+            while cur.next != self.head:
+                prev = cur 
+                cur = cur.next
+                if cur.data == key:
+                    prev.next = cur.next 
+                    cur = cur.next
+
 
 cllist = CircularLinkedList()
 cllist.insert_to_end("C")
@@ -50,3 +66,6 @@ cllist.insert_to_end("D")
 cllist.insert_to_end("B")
 cllist.insert_to_end("A")
 cllist.print_list()
+
+cllist.remove("A")
+cllist.remove("C")
