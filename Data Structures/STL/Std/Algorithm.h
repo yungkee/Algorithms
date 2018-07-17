@@ -113,6 +113,8 @@ namespace STL
 			if (*pBegin == oldValue)
 				*pBegin = newValue;
 			++pBegin;
+
+			
 		}
 	}
 
