@@ -70,6 +70,7 @@ void LinkedList<T>::PushBack(T data)
 {
 	if (m_head == nullptr)
 	{
+		// raw pointer evil !!!!
 		m_head = new Node<T>(data);
 	}
 	else

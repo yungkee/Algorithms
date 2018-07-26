@@ -66,6 +66,81 @@ namespace STL
 			}
 		}
 
+		void Resize(const size_t size)
+		{
+			size_t copyWidth = 0;
+			if (m_pBuffer)
+			{
+				char* pNewBuffer = new char[size + 1];
+				copyWidth = size > m_size ? m_size : size;
+				memcpy(pNewBuffer, m_pBuffer, copyWidth);
+				delete[] m_pBuffer;
+				m_pBuffer = pNewBuffer;
+			}
+			else
+			{
+				m_pBuffer = new char[size + 1];
+			}
+			memset(m_pBuffer + copyWidth, 0, (size - copyWidth));
+			m_size = size;
+			m_capacity = size;
+			m_pBuffer[m_size] = '\0';
+		}
+
+		void Reserve(const size_t size)
+		{
+			if (size <= m_capacity)
+				return;
+
+			if (m_pBuffer != nullptr)
+			{
+				char* pNewBuffer = new char[size + 1];
+				size_t copyWidth = size > m_size ? m_size: size;
+				memcpy(pNewBuffer, m_pBuffer, copyWidth + 1);
+				delete[] m_pBuffer;
+				m_pBuffer = pNewBuffer;
+			}
+			else
+			{
+				m_pBuffer = new char[size + 1];
+			}
+			m_capacity = size;
+		}
+
+		void ShrinkToFit()
+		{
+			Resize(m_size);
+		}
+
+		char Pop()
+		{
+			assert(m_size > 0);
+			char value = Back();
+			--m_size;
+			m_pBuffer[m_size] = '\0';
+			return value;
+		}
+
+		void Swap(String& other)
+		{
+			STL::Swap(m_pBuffer, other.m_pBuffer);
+			STL::Swap(m_size, other.m_size);
+			STL::Swap(m_capacity, other.m_capacity);
+		}
+
+		void Assign(const size_t amount, const char value)
+		{
+			if (m_size + amount > m_capacity)
+				Reserve(m_size + amount);
+			for (size_t i = 0; i < amount; ++i)
+			{
+				memcpy(m_pBuffer + m_size + i, &value, sizeof(char));
+			}
+			m_size += amount;
+			m_pBuffer[m_size] = '\0';
+		}
+
+
 		void Append(const char* pData)
 		{
 			if (pData)
@@ -104,12 +179,10 @@ namespace STL
 			m_pBuffer[m_size] = '\0';
 		}
 
-
 	private:
 
 		char* m_pBuffer;
 		size_t m_size;
 		size_t m_capacity;
-	};
 
 }
